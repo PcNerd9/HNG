@@ -1,12 +1,19 @@
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from datetime import datetime, timezone
 
 
 app = FastAPI()
 
 
-@app.get("/", status_code=status.HTTP_200_OK)
+class Response(BaseModel):
+    email: str
+    current_datetime: str
+    github_url: str
+
+
+@app.get("/", status_code=status.HTTP_200_OK, response_model=Response)
 async def home():
     return JSONResponse(
         content={
